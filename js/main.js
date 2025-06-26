@@ -16,16 +16,26 @@ function buscarExp (exp) {
    
 }
 
+function tienePeticion (exp) {
+    if (exp01[1] == true) {
+        console.log (exp01[1])
+        alert("si estas pedido por la compañía " + exp01[2])
+    }
+    else {
+        alert ("No estas pedido")
+    }
+}
+
 let CURP = prompt("Ingresa tu CURP").toUpperCase();
 buscarExp (CURP)
-console.log (existeCURP)
 
 
-let menu = parseInt(prompt("1-Revisar si estoy pedido \n 2-Revisar mi teléfono de contacto\n 3-Modificar mi teléfono de contacto \n 4-Salir"))
+
+let menu = parseInt(prompt(" 1-Revisar si estoy pedido \n 2-Revisar mi teléfono de contacto\n 3-Modificar mi teléfono de contacto \n 4-Salir"))
 while(existeCURP && menu !=4 ) {
     switch(menu) {
         case 1:
-            
+            tienePeticion (CURP)
             break
         case 2:
             
@@ -36,7 +46,7 @@ while(existeCURP && menu !=4 ) {
         default:
             alert("Opcion incorrecta")
     }
-    menu = parseInt(prompt("1-Revisar si estoy pedido \n 2-Revisar mi teléfono de contacto\n 3-Modificar mi teléfono de contacto \n 4-Salir"))
+    menu = parseInt(prompt(" 1-Revisar si estoy pedido \n 2-Revisar mi teléfono de contacto\n 3-Modificar mi teléfono de contacto \n 4-Salir"))
 }
 
 
