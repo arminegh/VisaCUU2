@@ -5,9 +5,8 @@ const CURPexpedientes = ["GAHA771209MCHRRR08", "RETU870403HSOUYE76", "POLJ951108
 const exp01 = ["GAHA771209MCHRRR08", true, "BRIGHT VIEW", "+526141423794"]
 const exp02 = ["RETU870403HSOUYE76", false, "", ""]
 const exp03 = ["POLJ951108MDFUHS67", true, "LAWN SCAPES", "+13457687123"]
-
-
 let existeCURP = false
+//
 
 function buscarExp (exp) {
     if (CURPexpedientes.includes(exp)){
@@ -30,6 +29,11 @@ function mostrarTelefono (exp) {
     alert("Tu teléfono para contacto registrado es el " + exp01[3])
 }
 
+function cambiarTelefono (exp) {
+    exp01[3] = exp
+}
+
+
 let CURP = prompt("Ingresa tu CURP").toUpperCase();
 buscarExp (CURP)
 
@@ -45,7 +49,9 @@ while(existeCURP && menu !=4 ) {
             mostrarTelefono (CURP)
             break
         case 3:
-            
+            let nuevoNumero = prompt("Proporciona el nuevo teléfono ")
+            //faltaría una validación de que se haya introducido correctamente
+            cambiarTelefono (nuevoNumero)
             break
         default:
             alert("Opcion incorrecta")
