@@ -26,6 +26,10 @@ function tienePeticion (exp) {
     }
 }
 
+function mostrarTelefono (exp) {
+    alert("Tu teléfono para contacto registrado es el " + exp01[3])
+}
+
 let CURP = prompt("Ingresa tu CURP").toUpperCase();
 buscarExp (CURP)
 
@@ -38,7 +42,7 @@ while(existeCURP && menu !=4 ) {
             tienePeticion (CURP)
             break
         case 2:
-            
+            mostrarTelefono (CURP)
             break
         case 3:
             
