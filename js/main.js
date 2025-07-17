@@ -43,18 +43,27 @@ let menu = 4
 
 
 let CURP = document.getElementById("CURP");
-let comunicarOpciones = document.getElementById("comunicarOpciones");
+let comunicarOpciones = document.getElementById("comunicados");
 let peticion = document.getElementById("peticion");
 let telefono = document.getElementById("telefono");
 let evento = document.getElementById ("CURP");
 
+const contenedor = document.getElementById("tablero"); 
 
 
 
 evento.addEventListener ("change", CURPingresado) 
 
+//inicialización de cierta info y variables
 function CURPingresado () {
+    const tablero = document.getElementById ("comunicados")
     CURP.value = (CURP.value).toUpperCase();
+
+    console.log (tablero)
+   if (tablero) {
+       // tablero.remove();
+  }
+
 }
 
 function buscarExp (exp) {
@@ -75,14 +84,20 @@ function descargarInfo (exp) {
 
 function mostrarPeticion (exp) {
     const usuarioActual = expedientes.find(expediente => expediente.curp === exp);
+    const comunicacion = document.createElement("h3");
+
 
     if (usuarioActual.peticion == true) {
-        
-        alert("si estas pedido por la compañía " + usuarioActual.empresa)
+        comunicacion.textContent = "Tienes una petición de la compañía " + usuarioActual.empresa;
     }
     else {
-        alert ("No estas pedido")
+        comunicacion.textContent = "No tienes ninguna petición hasta el momento";
     }
+
+    
+    comunicacion.id = "comunicados";
+    console.log(contenedor)
+    contenedor.appendChild(comunicacion);
 }
 
 function mostrarTelefono () {
@@ -99,44 +114,6 @@ function cambiarTelefono (exp) {
 
 
 
-//ANTES DE DOM
-/*let CURP = prompt("Ingresa tu CURP").toUpperCase();
-//buscarExp (CURP)
-
-
-if (!existeCURP == true) {
-    alert ("No existe expediente para esa CURP en VisaCUU")
-    menu = 4}
-else {
-    menu = parseInt(prompt(" 1-Revisar si estoy pedido \n 2-Revisar mi teléfono de contacto\n 3-Modificar mi teléfono de contacto \n 4-Salir"))
-}
-
-
-
-while ( (existeCURP) && (menu !=4) ) {
-    
-    switch(menu) {
-        case 1:
-            tienePeticion (CURP)
-            break
-        case 2:
-            mostrarTelefono (CURP)
-            break
-        case 3:
-            let nuevoNumero = prompt("Proporciona el nuevo teléfono ")
-            //faltaría una validación de que se haya introducido correctamente
-            cambiarTelefono (nuevoNumero)
-            break
-        default:
-            alert("Opcion incorrecta")
-    }
-    menu = parseInt(prompt(" 1-Revisar si estoy pedido \n 2-Revisar mi teléfono de contacto\n 3-Modificar mi teléfono de contacto \n 4-Salir"))
-}
-
-*/
-
-
-
 buscar.onclick = () => {
     //console.log (CURP.value);   
     //console.log (existeCURP);  
@@ -144,13 +121,20 @@ buscar.onclick = () => {
     
     if ( buscarExp (CURP.value) ){
         comunicarOpciones.innerHTML = "Información principal"
+        cambios.disabled = false; 
         descargarInfo(CURP.value);
         mostrarPeticion(CURP.value);
-        mostrarTelefono();
+        //mostrarTelefono();
 
     }else {
         comunicarOpciones.innerHTML = "NO EXISTE EXPEDIENTE CON ESA CURP"
 
     }
 }
+
+
+   const cambios = document.getElementById('cambiarTelefono');
+   cambios.disabled = true; 
+
+
 
