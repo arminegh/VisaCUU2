@@ -2,8 +2,6 @@
 // estos serían los expedientes que existen según su CURP 
 const CURPexpedientes = ["GAHA771209MCHRRR08", "RETU870403HSOUYE76", "POLJ951108MDFUHS67"]
 // se cargarían de una base de información ya existente
-
-
 const expedientes= [
     {
         curp: "GAHA771209MCHRRR08",
@@ -37,42 +35,33 @@ const expedientes= [
     },
 ]
 
-
-let existeCURP = false
-let menu = 4
-
-
 let CURP = document.getElementById("CURP");
 let comunicarOpciones = document.getElementById("comunicados");
-let peticion = document.getElementById("peticion");
-let telefono = document.getElementById("telefono");
 let evento = document.getElementById ("CURP");
 
-const contenedor = document.getElementById("tablero"); 
+const contenedor = document.getElementById ("tablero")
 
 
-
-evento.addEventListener ("change", CURPingresado) 
-
-//inicialización de cierta info y variables
-function CURPingresado () {
-    const tablero = document.getElementById ("comunicados")
+evento.addEventListener ("change", cambioCURP) 
+function cambioCURP () {
     CURP.value = (CURP.value).toUpperCase();
-
-    console.log (tablero)
-   if (tablero) {
-       // tablero.remove();
-  }
-
 }
 
 function buscarExp (exp) {
     const usuarioActual = expedientes.find(expediente => expediente.curp === exp);
-    return usuarioActual;
-
-
-   
+    return usuarioActual;  
 }
+
+function borrarTablero () {
+    const tablero = document.getElementById ("tablero")
+    while (tablero.firstChild) {
+        tablero.removeChild(tablero.firstChild);
+    }
+
+
+}
+
+
 //función para guardar en local storage el expediente
 function descargarInfo (exp) {
     const usuarioActual = expedientes.find(expediente => expediente.curp === exp);
@@ -96,12 +85,17 @@ function mostrarPeticion (exp) {
 
     
     comunicacion.id = "comunicados";
-    console.log(contenedor)
     contenedor.appendChild(comunicacion);
 }
 
-function mostrarTelefono () {
-    alert("Tu teléfono para contacto registrado es el " + localStorage.getItem("telefono"))
+function mostrarTelefono (exp) {
+    const usuarioActual = expedientes.find(expediente => expediente.curp === exp);
+    const comunicacion = document.createElement("h3");
+
+    comunicacion.textContent = "Tu teléfono para contactarte es " + usuarioActual.telefono;
+   
+    comunicacion.id = "comunicados";
+    contenedor.appendChild(comunicacion);
 
 }
 
@@ -115,21 +109,22 @@ function cambiarTelefono (exp) {
 
 
 buscar.onclick = () => {
-    //console.log (CURP.value);   
-    //console.log (existeCURP);  
+    borrarTablero();
+    const comunicacion = document.createElement("h3");
 
-    
     if ( buscarExp (CURP.value) ){
-        comunicarOpciones.innerHTML = "Información principal"
+        comunicacion.textContent = "Resumen de tu expediente "
         cambios.disabled = false; 
         descargarInfo(CURP.value);
         mostrarPeticion(CURP.value);
-        //mostrarTelefono();
+        mostrarTelefono(CURP.value);
 
     }else {
-        comunicarOpciones.innerHTML = "NO EXISTE EXPEDIENTE CON ESA CURP"
+        comunicacion.textContent = "NÚMERO DE EXPEDIENTE NO EXISTE"
 
     }
+    comunicacion.id = "comunicados";
+    contenedor.appendChild(comunicacion);
 }
 
 
