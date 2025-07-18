@@ -71,13 +71,12 @@ function descargarInfo (exp) {
     localStorage.setItem("telefono",usuarioActual.telefono)
 }
 
-function mostrarPeticion (exp) {
-    const usuarioActual = expedientes.find(expediente => expediente.curp === exp);
+function mostrarPeticion () {
     const comunicacion = document.createElement("h3");
-
-
-    if (usuarioActual.peticion == true) {
-        comunicacion.textContent = "Tienes una petición de la compañía " + usuarioActual.empresa;
+    let peticion = localStorage.getItem("peticion")
+   
+    if (peticion) {
+        comunicacion.textContent = "Tienes una petición de la compañía " + localStorage.getItem("empresa");
     }
     else {
         comunicacion.textContent = "No tienes ninguna petición hasta el momento";
@@ -85,14 +84,15 @@ function mostrarPeticion (exp) {
 
     
     comunicacion.id = "comunicados";
-    contenedor.appendChild(comunicacion);
+    contenedor.appendChild(comunicacion); 
+
+
 }
 
-function mostrarTelefono (exp) {
-    const usuarioActual = expedientes.find(expediente => expediente.curp === exp);
+function mostrarTelefono () {
     const comunicacion = document.createElement("h3");
 
-    comunicacion.textContent = "Tu teléfono para contactarte es " + usuarioActual.telefono;
+    comunicacion.textContent = "Tu teléfono para contactarte es " + localStorage.getItem("telefono");
    
     comunicacion.id = "comunicados";
     contenedor.appendChild(comunicacion);
@@ -101,35 +101,74 @@ function mostrarTelefono (exp) {
 
 
 
-function cambiarTelefono (exp) {
-    exp01[3] = exp
+function prepararCambio () {
+    const contenedor = document.getElementById ("cambios")
+    //const numeroNuevo = document.createElement ("input")
+
+    contenedor.innerHTML = `<label for="nombre">Teléfono nuevo </label>
+        <input type="text" id="nuevoTel" name="nuevoTel" placeholder="Nuevo número de teléfono"><br><br>`
+   
+    cambioNumero.disabled = false; 
+    
+}
+
+
+cambiarTelefono.onclick = () => {  
+    prepararCambio()
 }
 
 
 
+actualizarNumero.onclick = () => {
+
+
+    const nuevo = document.getElementById ("nuevoTel");
+
+    console.log (nuevo.value)
+
+    expedientes.forEach(expediente => {
+
+      if (expediente.curp === CURP.value) { 
+        
+        expediente.telefono = nuevo.value;
+        borrarTablero();
+        descargarInfo(CURP.value);
+        mostrarPeticion();
+        mostrarTelefono();
+
+      }
+    })
+
+    console.log (expedientes)
+
+
+}
 
 buscar.onclick = () => {
     borrarTablero();
     const comunicacion = document.createElement("h3");
 
     if ( buscarExp (CURP.value) ){
-        comunicacion.textContent = "Resumen de tu expediente "
+        comunicacion.textContent = "RESUMEN DE TU EXPEDIENTE"
+        contenedor.appendChild(comunicacion);
         cambios.disabled = false; 
         descargarInfo(CURP.value);
-        mostrarPeticion(CURP.value);
-        mostrarTelefono(CURP.value);
+        mostrarPeticion();
+        mostrarTelefono();
 
     }else {
         comunicacion.textContent = "NÚMERO DE EXPEDIENTE NO EXISTE"
+        contenedor.appendChild(comunicacion);
 
     }
-    comunicacion.id = "comunicados";
-    contenedor.appendChild(comunicacion);
+    //comunicacion.id = "comunicados";
+    
 }
 
 
-   const cambios = document.getElementById('cambiarTelefono');
-   cambios.disabled = true; 
+    const cambios = document.getElementById('cambiarTelefono');
+    cambios.disabled = true; 
 
-
+    const cambioNumero = document.getElementById('actualizarNumero');
+    cambioNumero.disabled = true; 
 
