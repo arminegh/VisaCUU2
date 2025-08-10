@@ -9,3 +9,6 @@ El contacto es únicamente por llamadas telefónicas y  muchas veces los aplican
 La CURP o Clave Única de Registro de Población, es un código alfanumérico de 18 caracteres que identifica de manera única a todas las personas que residen en México, tanto nacionales como extranjeras.
 
 Esta aplicación tiene como objetivo informar a las personas interesadas de alguna petición que tengan y permitirles informar si cambiaron de número de teléfono. 
+
+La intención de la aplicación era unicamente visualización por parte del los aplicantes y únicamente cambiar el número de teléfono. Agregué un archivo HTML adicional para atender el resto de las correcciones. En la página principal está una imagen con el logo de la imagen que contiene la liga hacia la pantalla de "administración". No conecté con ligas esa otra página. 
+
