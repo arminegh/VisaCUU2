@@ -1,1 +1,15 @@
+body {
+  text-align: center;
+}
 
+.sinInfo {
+  color: red;
+}
+
+.conInfo {
+  color: black;
+}
+
+.resaltar {
+  font-style: italic; 
+}

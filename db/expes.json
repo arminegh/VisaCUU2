@@ -1,0 +1,66 @@
+[
+  {
+    "CURP": "GAHA771209MCHAAA08",
+    "nombre": "Arminé García Hermosillo",
+    "telefono": "17707368031",
+    "peticion": "true",
+    "compania": "Romaguera-Crona",
+    "inicio": "01/04/2025"
+  },
+  {
+    "CURP": "HYTR771209MCHRRR08",
+    "nombre": "Ervin Howell",
+    "telefono": "0106926593",
+    "peticion": "false",
+    "compania": "",
+    "inicio": ""
+  },
+  {
+    "CURP": "OITY771209MCHRRR08",
+    "nombre": "Clementine Bauch",
+    "telefono": "14631234447",
+    "peticion": "true",
+    "compania": "Deckow-Crist",
+    "inicio": "11/10/2025"
+  },
+  {
+    "CURP": "QWER12345678ZXCVBN00",
+    "nombre": "Patricia Lebsack",
+    "telefono": "4931709623",
+    "peticion": "false",
+    "compania": "",
+    "inicio": ""
+  },
+  {
+    "CURP": "GAHA880767MCHRRR08",
+    "nombre": "Chelsey Dietrich",
+    "telefono": "2549541289",
+    "peticion": "true",
+    "compania": "Keebler LLC",
+    "inicio": "11/11/2025"
+  },
+  {
+    "CURP": "YUHY880767MCHUYT08",
+    "nombre": "Mrs. Dennis Schulist",
+    "telefono": "14779358478",
+    "peticion": "false",
+    "compania": "",
+    "inicio": ""
+  },
+  {
+    "CURP": "YUHY880768MCHUYT08",
+    "nombre": "Kurtis Weissnat",
+    "telefono": "2100676132",
+    "peticion": "false",
+    "compania": "",
+    "inicio": ""
+  },
+  {
+    "CURP": "GAHA801208MCHRRR08",
+    "nombre": "Nicholas Runolfsdottir V",
+    "telefono": "5864936943",
+    "peticion": "true",
+    "compania": "Johns Group",
+    "inicio": "15/09/2025"
+  }
+]

@@ -1,174 +1,109 @@
 
-// estos serían los expedientes que existen según su CURP 
-const CURPexpedientes = ["GAHA771209MCHRRR08", "RETU870403HSOUYE76", "POLJ951108MDFUHS67"]
-// se cargarían de una base de información ya existente
-const expedientes= [
-    {
-        curp: "GAHA771209MCHRRR08",
-        peticion: true, 
-        empresa: "BRIGHT VIEW",
-        telefono: "+526141423794" 
-    },
-    {
-        curp: "RETU870403HSOUYE76", 
-        peticion: false, 
-        empresa: "",
-        telefono: "+526394732334"
-    },
-    {
-        curp: "ABC123", 
-        peticion: false, 
-        empresa: "",
-        telefono: "+1234876546351"
-    },
-    {
-        curp: "XYZ098", 
-        peticion: false, 
-        empresa: "",
-        telefono: "+1234876546351"
-    },
-    {
-        curp: "123", 
-        peticion: true, 
-        empresa: "ELEMENTARY",
-        telefono: "+1234876546351"
-    },
-]
-
 let CURP = document.getElementById("CURP");
-let comunicarOpciones = document.getElementById("comunicados");
 let evento = document.getElementById ("CURP");
-
 const contenedor = document.getElementById ("tablero")
-
+const expedientes = []
 
 evento.addEventListener ("change", cambioCURP) 
+
+
+obtenerInfo ()
+permitirCambios (false)
+
+
+function permitirCambios (indicador) {
+    const cambios = document.getElementById('cambiarTelefono');
+    if (indicador) {
+        cambios.removeAttribute("hidden");}
+    else {
+        cambios.setAttribute("hidden", "hidden");}
+}
+
+function obtenerInfo () {
+    fetch("./db/expes.json")
+        .then((response) => response.json())
+        .then((data) => {
+            data.forEach(exp => {
+                expedientes.push(exp);
+            })
+        })
+}
+
 function cambioCURP () {
     CURP.value = (CURP.value).toUpperCase();
 }
 
-function buscarExp (exp) {
-    const usuarioActual = expedientes.find(expediente => expediente.curp === exp);
+function buscarExpediente (exp) {
+    const usuarioActual = expedientes.find(expediente => expediente.CURP === exp);
     return usuarioActual;  
 }
 
-function borrarTablero () {
+function limpiarTablero () {
     const tablero = document.getElementById ("tablero")
     while (tablero.firstChild) {
         tablero.removeChild(tablero.firstChild);
     }
+}
 
+function llenarTablero () {
+    const linea1 = document.createElement("h2");
+    linea1.textContent = localStorage.getItem("nombre");
+    contenedor.appendChild(linea1);
+    const linea2 = document.createElement("h4");
+    linea2.textContent = "Tu teléfono para contactarte es "
+    contenedor.appendChild(linea2)
+    const linea3 = document.createElement("h4");
+    linea3.textContent = localStorage.getItem("telefono");
+    linea3.classList.add('resaltar')
+    contenedor.appendChild(linea3)
+    permitirCambios (true)
+    if ( localStorage.getItem("peticion") == "true" ){
+        const linea1 = document.createElement("h4");
+        linea1.textContent = "Tienes una petición con"
+        linea1.classList.add('conInfo')
+        contenedor.appendChild(linea1)
+        const linea2 = document.createElement("h4");
+        linea2.textContent = localStorage.getItem("compania");
+        linea2.classList.add('resaltar')
+        contenedor.appendChild(linea2)
+        const linea3 = document.createElement("h4");
+        linea3.textContent = "Fecha de inicio de temporada";
+        contenedor.appendChild(linea3)
+        const linea4 = document.createElement("h4");
+        linea4.textContent = localStorage.getItem("fecha");
+        linea4.classList.add('resaltar')
+        contenedor.appendChild(linea4)
 
+    }else {
+        const linea1 = document.createElement("h3");
+        linea1.textContent = "Hasta el momento no tienes peticiones"
+        linea1.classList.add('sinInfo')
+        contenedor.appendChild(linea1)   
+    }
 }
 
 
 //función para guardar en local storage el expediente
-function descargarInfo (exp) {
-    const usuarioActual = expedientes.find(expediente => expediente.curp === exp);
+function cargarUsuarioActual (exp) {
+    const usuarioActual = expedientes.find(expediente => expediente.CURP === exp);
     localStorage.setItem("curp", usuarioActual.curp)
+    localStorage.setItem("nombre", usuarioActual.nombre)
     localStorage.setItem("peticion", usuarioActual.peticion)
-    localStorage.setItem("empresa",usuarioActual.empresa)
+    localStorage.setItem("compania",usuarioActual.compania)
     localStorage.setItem("telefono",usuarioActual.telefono)
-}
-
-function mostrarPeticion () {
-    const comunicacion = document.createElement("h3");
-    let peticion = localStorage.getItem("peticion")
-   
-    if (peticion) {
-        comunicacion.textContent = "Tienes una petición de la compañía " + localStorage.getItem("empresa");
-    }
-    else {
-        comunicacion.textContent = "No tienes ninguna petición hasta el momento";
-    }
-
-    
-    comunicacion.id = "comunicados";
-    contenedor.appendChild(comunicacion); 
-
-
-}
-
-function mostrarTelefono () {
-    const comunicacion = document.createElement("h3");
-
-    comunicacion.textContent = "Tu teléfono para contactarte es " + localStorage.getItem("telefono");
-   
-    comunicacion.id = "comunicados";
-    contenedor.appendChild(comunicacion);
-
-}
-
-
-
-function prepararCambio () {
-    const contenedor = document.getElementById ("cambios")
-    //const numeroNuevo = document.createElement ("input")
-
-    contenedor.innerHTML = `<label for="nombre">Teléfono nuevo </label>
-        <input type="text" id="nuevoTel" name="nuevoTel" placeholder="Nuevo número de teléfono"><br><br>`
-   
-    cambioNumero.disabled = false; 
-    
-}
-
-
-cambiarTelefono.onclick = () => {  
-    prepararCambio()
-}
-
-
-
-actualizarNumero.onclick = () => {
-
-
-    const nuevo = document.getElementById ("nuevoTel");
-
-    console.log (nuevo.value)
-
-    expedientes.forEach(expediente => {
-
-      if (expediente.curp === CURP.value) { 
-        
-        expediente.telefono = nuevo.value;
-        borrarTablero();
-        descargarInfo(CURP.value);
-        mostrarPeticion();
-        mostrarTelefono();
-
-      }
-    })
-
-    console.log (expedientes)
-
-
+    localStorage.setItem("fecha",usuarioActual.inicio)
 }
 
 buscar.onclick = () => {
-    borrarTablero();
-    const comunicacion = document.createElement("h3");
-
-    if ( buscarExp (CURP.value) ){
-        comunicacion.textContent = "RESUMEN DE TU EXPEDIENTE"
-        contenedor.appendChild(comunicacion);
-        cambios.disabled = false; 
-        descargarInfo(CURP.value);
-        mostrarPeticion();
-        mostrarTelefono();
+    limpiarTablero();
+    if ( buscarExpediente (CURP.value) ){
+        cargarUsuarioActual(CURP.value);
+        llenarTablero();
 
     }else {
-        comunicacion.textContent = "NÚMERO DE EXPEDIENTE NO EXISTE"
-        contenedor.appendChild(comunicacion);
-
+        const linea1 = document.createElement("h2");
+        linea1.textContent = "NÚMERO DE EXPEDIENTE NO EXISTE";
+        linea1.classList.add('sinInfo')
+        contenedor.appendChild(linea1);
     }
-    //comunicacion.id = "comunicados";
-    
 }
-
-
-    const cambios = document.getElementById('cambiarTelefono');
-    cambios.disabled = true; 
-
-    const cambioNumero = document.getElementById('actualizarNumero');
-    cambioNumero.disabled = true; 
-
