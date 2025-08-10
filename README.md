@@ -1,4 +1,4 @@
-# VisaCUU2
+# VisaCUU
 
 VisaCUU es una empresa registrada como facilitar para visas de trabajo temporales en Estados Unidos de América para extranjeros. Sus clientes son empresas dentro de Estados Unidos que solicitan trabajadores extranjeros. VisaCUU tramita las visas de los aplicantes que sean mexicanos. 
 
