@@ -31,11 +31,12 @@ function obtenerInfo () {
     fetch("./db/expes.json")
         .then((response) => response.json())
         .then((data) => {
+            localStorage.setItem("aplicantes", JSON.stringify(data))
             data.forEach(exp => {
                 expedientes.push(exp);
             })
         })
-
+        console.log(localStorage)
 }
 
 function cambioCURP () {
