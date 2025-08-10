@@ -13,3 +13,7 @@ body {
 .resaltar {
   font-style: italic; 
 }
+
+footer {
+  text-align: left;
+}

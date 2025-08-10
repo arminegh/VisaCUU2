@@ -1,22 +1,30 @@
 
 let CURP = document.getElementById("CURP");
 let evento = document.getElementById ("CURP");
-const contenedor = document.getElementById ("tablero")
+const contenedor = document.getElementById ("tablero");
+const cambiar = document.getElementById ("cambios");
 const expedientes = []
 
 evento.addEventListener ("change", cambioCURP) 
 
 
 obtenerInfo ()
-permitirCambios (false)
+permitirCambios (false, false)
 
 
-function permitirCambios (indicador) {
+function permitirCambios (indicador1, indicador2) {
     const cambios = document.getElementById('cambiarTelefono');
-    if (indicador) {
+    if (indicador1) {
         cambios.removeAttribute("hidden");}
+        
     else {
         cambios.setAttribute("hidden", "hidden");}
+
+    if (indicador2) {
+        confirmarCambio.removeAttribute("hidden")}
+        
+    else {
+        confirmarCambio.setAttribute("hidden", "hidden");}
 }
 
 function obtenerInfo () {
@@ -27,14 +35,31 @@ function obtenerInfo () {
                 expedientes.push(exp);
             })
         })
+
 }
 
 function cambioCURP () {
     CURP.value = (CURP.value).toUpperCase();
 }
 
+function modificarTelefono (exp, telefono){
+    expedientes.forEach(expediente => {
+        if (expediente.CURP === exp) { 
+            expediente.telefono = telefono;
+            Swal.fire({
+                title: "Teléfono actualizado",
+                text: "",
+                icon: "success"
+            });
+        }
+    })
+
+}
+
+
 function buscarExpediente (exp) {
     const usuarioActual = expedientes.find(expediente => expediente.CURP === exp);
+    console.log(localStorage)
     return usuarioActual;  
 }
 
@@ -43,6 +68,11 @@ function limpiarTablero () {
     while (tablero.firstChild) {
         tablero.removeChild(tablero.firstChild);
     }
+
+    const temporales = document.querySelectorAll('.temporal')
+    temporales.forEach(elemento => {
+        elemento.remove();
+    });
 }
 
 function llenarTablero () {
@@ -82,8 +112,6 @@ function llenarTablero () {
     }
 }
 
-
-//función para guardar en local storage el expediente
 function cargarUsuarioActual (exp) {
     const usuarioActual = expedientes.find(expediente => expediente.CURP === exp);
     localStorage.setItem("curp", usuarioActual.curp)
@@ -105,5 +133,40 @@ buscar.onclick = () => {
         linea1.textContent = "NÚMERO DE EXPEDIENTE NO EXISTE";
         linea1.classList.add('sinInfo')
         contenedor.appendChild(linea1);
+        permitirCambios (false);
     }
 }
+
+cambiarTelefono.onclick = () => {
+    const etiqueta = document.createElement("label")
+    etiqueta.textContent ="Introduce tu nuevo número";
+    etiqueta.classList.add ("temporal");
+    cambiar.appendChild(etiqueta);
+    const nuevoTel = document.createElement("input");
+    nuevoTel.type = "text";
+    nuevoTel.name = "nuevoTelefono";
+    nuevoTel.id = "nuevoTelefono"
+    nuevoTel.classList.add ("temporal");
+    cambiar.appendChild(nuevoTel);
+    permitirCambios (true, true)
+}
+
+confirmarCambio.onclick = () => {
+    const nuevoTelefono = document.getElementById ("nuevoTelefono");
+    if ( parseInt(nuevoTelefono.value)){
+        console.log ( "es un numero")
+        modificarTelefono (CURP.value, nuevoTelefono.value);
+        limpiarTablero();
+        cargarUsuarioActual(CURP.value);
+        llenarTablero();   
+    }else {
+        Swal.fire({
+            title: "Teléfono no válido",
+            text: "Debes ingresar puros números",
+            icon: "error"
+        });
+        nuevoTelefono.value = "";
+        nuevoTelefono.focus();
+    }
+}
+
