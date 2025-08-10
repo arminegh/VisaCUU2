@@ -3,6 +3,8 @@ let contenedor = document.getElementById("espacio")
 let expData = localStorage.getItem("aplicantes")
 expData = JSON.parse(expData)
 
+
+
 llenaEspacio(expData)
 
 
@@ -13,17 +15,49 @@ function llenaEspacio(aplicantes) {
                             <h4>${expediente.nombre}</h4
                           <h4>${expediente.telefono}</h4>
                           <button class="editar" id="${expediente.CURP}">Editar</button>
+                          <button class="borrar" id="b${expediente.CURP}">Borrar</button>
                           <hr>`
         contenedor.appendChild(card)
     })
 
     editar (aplicantes)
+    borrar (aplicantes)
 }
 
+function borrar (aplicantesArray){
+    const borrarButton = document.querySelectorAll(".borrar")
+    borrarButton.forEach(button => {
+        button.onclick = (e) => {
+            const curp = e.currentTarget.id
+            let curpABorrar = curp.slice(1);
+
+            console.log(curpABorrar)
+
+
+            let expData = localStorage.getItem("aplicantes")
+            expData = JSON.parse(expData)
+
+            let posicionABorrar = expData.findIndex(aplicante => aplicante.CURP === curpABorrar);
+            console.log(posicionABorrar)
+            expData.splice(posicionABorrar, 1)
+
+
+            limpiarAplicantes ()
+        localStorage.clear();
+        localStorage.setItem("aplicantes", JSON.stringify(expData))
+        let actualizar = localStorage.getItem("aplicantes")
+        actualizar = JSON.parse(actualizar)
+        limpiarFormulario()
+        //console.assert(actualizar)
+        llenaEspacio(actualizar)
+
+
+
+        }
+    })
+}
 
 function editar (aplicantesArray) {
-
-
     const editarButton = document.querySelectorAll(".editar")
     editarButton.forEach(button => {
         button.onclick = (e) => {
@@ -101,6 +135,13 @@ function creaFormulario (datosDefault, expData) {
     cancelar.id = 'myDynamicButton';
     contenedorFormulario.appendChild(cancelar);
     cancelar.addEventListener('click', () => {
+        Swal.fire({
+            position: "top-end",
+            icon: "info",
+            title: "No se realizó nungún cambio",
+            showConfirmButton: false,
+            timer: 950
+        });
         limpiarFormulario ();
    
     })

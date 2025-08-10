@@ -3,7 +3,11 @@ let CURP = document.getElementById("CURP");
 let evento = document.getElementById ("CURP");
 const contenedor = document.getElementById ("tablero");
 const cambiar = document.getElementById ("cambios");
-const expedientes = []
+//const expedientes = []
+
+
+let expedientes = localStorage.getItem("aplicantes")
+expedientes = JSON.parse(expedientes)
 
 evento.addEventListener ("change", cambioCURP) 
 
